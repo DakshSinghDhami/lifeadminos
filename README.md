@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LifeAdmin OS
 
-## Getting Started
+> Personal administration, simplified. One system for everything that runs your life.
 
-First, run the development server:
+LifeAdmin OS is a fintech tool that automatically detects active subscriptions through bank transactions, alerts users about price increases, and helps cancel unused services.
+
+## Stack
+
+- **Framework:** Next.js 16 (App Router, RSC)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS v4
+- **Typography:** Syne (display) · DM Sans (body) · JetBrains Mono (labels)
+- **Icons:** Lucide
+- **Animations:** Bespoke CSS (BlurText, FadeContent, SplitText, ShinyText, GradientText, CountUp, AnimatedList)
+- **No animation libraries** — everything is pure CSS, GPU-friendly, and respects `prefers-reduced-motion`
+
+## Design
+
+- **Color palette:** Navy `#0F2240`, Turquoise `#1D9E75`, Azure `#3157C8`, Fawn `#D2B47C`, Beige `#F5F0E8`
+- **Style:** Editorial fintech, asymmetric layouts, numbered sections (01–10), monospace labels
+- **No nav bar** — full-bleed hero
+- **Hero image:** `public/herobg.jpeg`
+- **Asset used in:** Hero, AI Assistant section
+
+## Develop
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+App runs on `http://localhost:3000` (or the next free port).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+## Lint
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run lint
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/
+  app/
+    layout.tsx        # root layout with fonts
+    page.tsx          # homepage
+    globals.css      # design system tokens + animation keyframes
+  components/
+    3d/               # WebGL background effects (legacy)
+    reactbits/        # CSS animation primitives (BlurText, FadeContent, etc.)
+    sections/         # one component per homepage section
+  lib/
+    utils.ts          # cn() className helper
+public/
+  herobg.jpeg         # hero background image
+```
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT

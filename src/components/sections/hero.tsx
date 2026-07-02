@@ -1,0 +1,156 @@
+"use client";
+
+import { ArrowRight, Play } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
+import { BlurText } from "@/components/reactbits/blur-text";
+import { FadeContent } from "@/components/reactbits/fade-content";
+
+export function Hero() {
+  return (
+    <section
+      id="top"
+      className="relative min-h-[100svh] w-full overflow-hidden"
+      aria-label="Hero"
+    >
+      {/* Background image — herobg.jpeg */}
+      <div className="absolute inset-0">
+        <Image
+          src="/herobg.jpeg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+      </div>
+
+      {/* Dark gradient overlay for legibility — strong at bottom, subtle at top */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        aria-hidden="true"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(2,6,13,0.55) 0%, rgba(2,6,13,0.30) 35%, rgba(2,6,13,0.65) 75%, rgba(2,6,13,0.92) 100%), linear-gradient(90deg, rgba(2,6,13,0.45) 0%, rgba(2,6,13,0.10) 50%, rgba(2,6,13,0.30) 100%)",
+        }}
+      />
+
+      <div className="relative z-10 container-x pt-28 sm:pt-32">
+        <FadeContent duration={0.5} y={8} as="div">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-black/30 backdrop-blur-sm px-3 py-1.5 text-[11.5px] font-medium text-white/90">
+            <span
+              aria-hidden="true"
+              className="h-1.5 w-1.5 rounded-full bg-turquoise pulse-dot"
+            />
+            Private beta · Barcelona
+          </span>
+        </FadeContent>
+      </div>
+
+      <div className="relative z-10 container-x">
+        <div className="flex min-h-[calc(100svh-180px)] items-end pb-14 sm:pb-16 lg:pb-20">
+          <div className="max-w-2xl lg:max-w-3xl w-full">
+            <FadeContent duration={0.5} y={6} as="div">
+              <p className="t-eyebrow text-turquoise">
+                <span aria-hidden="true" className="opacity-60">01 —</span> Personal Finance OS
+              </p>
+            </FadeContent>
+
+            <h1 className="mt-5 t-display-xl text-white text-balance text-[clamp(2.5rem,5.8vw,5rem)]">
+              <BlurText
+                text="Stop leaking money to"
+                as="span"
+                stagger={0.04}
+                duration={0.5}
+              />
+              <br />
+              <BlurText
+                text="forgotten subscriptions."
+                as="span"
+                stagger={0.045}
+                duration={0.6}
+                delay={0.2}
+                className_word="rb-italic-accent"
+              />
+            </h1>
+
+            <FadeContent
+              duration={0.5}
+              delay={0.55}
+              y={8}
+              as="p"
+              className="mt-6 text-[16px] sm:text-[17.5px] text-white/85 max-w-xl text-pretty"
+            >
+              LifeAdmin OS reads your bank account, finds every recurring
+              charge, flags price increases, and cancels what you no longer
+              use. Read-only. Bank-agnostic.{" "}
+              <span className="text-white">Money never moves.</span>
+            </FadeContent>
+
+            <FadeContent
+              duration={0.45}
+              delay={0.7}
+              y={8}
+              as="div"
+              className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3"
+            >
+              <Link
+                href="#cta"
+                className="btn btn-turquoise h-[50px] px-6 text-[14.5px] sm:text-[15px] w-full sm:w-auto"
+              >
+                Connect your bank
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+              <Link
+                href="#how"
+                className="btn btn-ghost h-[50px] px-5 text-[14.5px] sm:text-[15px] w-full sm:w-auto text-white border border-white/30 hover:border-white/60 hover:bg-white/10"
+              >
+                <Play className="h-3.5 w-3.5" aria-hidden="true" />
+                See a 60s walkthrough
+              </Link>
+            </FadeContent>
+
+            <FadeContent
+              duration={0.4}
+              delay={0.85}
+              y={6}
+              as="ul"
+              className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 t-mono text-[11.5px] text-white/75"
+            >
+              {[
+                "No card",
+                "60-second setup",
+                "PSD2 open banking",
+                "EU-hosted",
+              ].map((b) => (
+                <li key={b} className="flex items-center gap-1.5">
+                  <span
+                    aria-hidden="true"
+                    className="h-1 w-1 rounded-full bg-turquoise"
+                  />
+                  {b}
+                </li>
+              ))}
+            </FadeContent>
+          </div>
+        </div>
+      </div>
+
+      <FadeContent
+        duration={0.5}
+        delay={1}
+        y={0}
+        as="div"
+        className="hidden lg:flex absolute bottom-8 right-[max(2rem,calc((100vw-1280px)/2+2rem))] z-10 items-center gap-3 text-[11.5px] text-white/75"
+      >
+        <span
+          aria-hidden="true"
+          className="h-1.5 w-1.5 rounded-full bg-turquoise pulse-dot"
+        />
+        <span className="t-mono uppercase tracking-wider">
+          Live · 3 price changes flagged in the last hour
+        </span>
+      </FadeContent>
+    </section>
+  );
+}

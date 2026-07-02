@@ -1,26 +1,428 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* ============================================================
+     BRAND — exact PRD colors
+     ============================================================ */
+  --color-navy: #0f2240;
+  --color-navy-2: #182f55;
+  --color-turquoise: #1d9e75;
+  --color-turquoise-2: #178663;
+  --color-turquoise-soft: #e6f4ee;
+  --color-azure: #3157c8;
+  --color-azure-2: #2748aa;
+  --color-azure-soft: #e6ecf8;
+  --color-fawn: #d2b47c;
+  --color-fawn-soft: #f4ebd9;
+  --color-beige: #f5f0e8;
+  --color-beige-2: #ebe1cf;
+  --color-paper: #ffffff;
+  --color-paper-2: #faf7f0;
+  --color-paper-3: #f0ebde;
+  --color-ink: #111111;
+  --color-ink-2: #2a2a2a;
+  --color-line: #e5dfd0;
+  --color-line-2: #d2c9b3;
+
+  /* Dark — for hero only */
+  --color-deep: #02060d;
+  --color-deep-2: #050a16;
+  --color-deep-3: #0a1226;
+
+  /* ============================================================
+     TYPE — per PRD Typography spec
+     Syne   — titles and brand elements (bold, geometric, modern)
+     DM Sans — body text (readable, professional, accessible)
+     JetBrains Mono — for code, labels, prices
+     ============================================================ */
+  --font-display: var(--font-syne), "Syne", system-ui, sans-serif;
+  --font-serif: var(--font-syne), "Syne", system-ui, sans-serif;
+  --font-sans: var(--font-dm-sans), "DM Sans", system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), "JetBrains Mono", ui-monospace, monospace;
+
+  /* ============================================================
+     RADIUS — restrained, not all pill-shaped
+     - btn: 6px (tight, not pill)
+     - card: 4px (sharp, professional fintech)
+     - pill: only used for actual pills/badges
+     ============================================================ */
+  --radius-card: 4px;
+  --radius-card-lg: 8px;
+  --radius-btn: 6px;
+  --radius-pill: 999px;
+
+  /* ============================================================
+     MOTION — concise
+     ============================================================ */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Shadow scale — used SPARINGLY */
+  --shadow-flat: 0 0 0 1px rgba(15, 34, 64, 0.06);
+  --shadow-1: 0 1px 0 rgba(15, 34, 64, 0.04);
+  --shadow-2: 0 2px 8px -2px rgba(15, 34, 64, 0.10);
+  --shadow-3: 0 8px 24px -8px rgba(15, 34, 64, 0.18);
+  --shadow-4: 0 20px 40px -16px rgba(15, 34, 64, 0.25);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 15.5px;
+    line-height: 1.55;
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  /* Tighten default headings — distinctive display font */
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    font-weight: 600;
+  }
+
+  ::selection {
+    background: var(--color-navy);
+    color: white;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-navy);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+    .rb-blur-out,
+    .rb-split-out,
+    .rb-fade-out,
+    .rb-list-item {
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
+      animation: none !important;
+    }
+    .rb-shiny,
+    .rb-gradient-text {
+      animation: none !important;
+      background-size: 100% 100% !important;
+    }
+    .grainient-container { display: none; }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-[1280px] px-5 sm:px-8;
+  }
+
+  /* ============================================================
+     TYPE TOKENS — disciplined scale
+     ============================================================ */
+  .t-display-xl {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+  }
+  .t-display-lg {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.02;
+  }
+  .t-display-md {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.022em;
+    line-height: 1.1;
+  }
+  /* Editorial accent — Syne (geometric, modern per PRD) with turquoise
+     color treatment for highlighted words. Used sparingly for emphasis. */
+  .t-serif-italic {
+    font-family: var(--font-display);
+    font-style: normal;
+    font-weight: 400;
+    color: var(--color-turquoise);
+    letter-spacing: -0.03em;
+  }
+  .t-mono {
+    font-family: var(--font-mono);
+    font-feature-settings: "tnum";
+  }
+  .t-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .t-eyebrow-dot::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: currentColor;
+    margin-right: 8px;
+    vertical-align: 1px;
+  }
+
+  /* ============================================================
+     BUTTONS — restrained, specific, no gradient-everywhere
+     ============================================================ */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap font-semibold select-none;
+    border-radius: var(--radius-btn);
+    transition: background-color 160ms var(--ease-out),
+                color 160ms var(--ease-out),
+                border-color 160ms var(--ease-out);
+    cursor: pointer;
+  }
+  .btn:active { transform: scale(0.985); }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+  .btn-primary {
+    background: var(--color-navy);
+    color: white;
+  }
+  .btn-primary:hover { background: var(--color-navy-2); }
+
+  .btn-turquoise {
+    background: var(--color-turquoise);
+    color: white;
+  }
+  .btn-turquoise:hover { background: var(--color-turquoise-2); }
+
+  .btn-dark {
+    background: white;
+    color: var(--color-navy);
+  }
+  .btn-dark:hover { background: #f0eee8; }
+
+  .btn-ghost {
+    background: transparent;
+    color: inherit;
+  }
+  .btn-ghost:hover { background: rgba(0, 0, 0, 0.04); }
+  .dark-section .btn-ghost { color: white; }
+  .dark-section .btn-ghost:hover { background: rgba(255, 255, 255, 0.08); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--color-navy);
+    border: 1px solid var(--color-line-2);
+  }
+  .btn-outline:hover { background: var(--color-navy); color: white; border-color: var(--color-navy); }
+  .dark-section .btn-outline { color: white; border-color: rgba(255, 255, 255, 0.20); }
+  .dark-section .btn-outline:hover { background: white; color: var(--color-navy); }
+
+  /* ============================================================
+     CARD — flat by default, hover lifts
+     No more card-on-card-on-card.
+     ============================================================ */
+  .card {
+    background: white;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card-lg);
+    transition: border-color 200ms var(--ease-out),
+                box-shadow 200ms var(--ease-out);
+  }
+  .card-hover:hover {
+    border-color: var(--color-line-2);
+    box-shadow: var(--shadow-3);
+  }
+
+  /* ============================================================
+     GLASS — used ONLY for nav + hero mini-card
+     ============================================================ */
+  .glass-nav {
+    background: rgba(10, 18, 38, 0.55);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+  }
+  .glass-nav-scrolled {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(15, 34, 64, 0.08);
+  }
+  .glass-card {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+  }
+
+  /* ============================================================
+     REVEAL — one-time, CSS only, no JS
+     ============================================================ */
+  .reveal {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+    animation: reveal-in 700ms var(--ease-out) forwards;
+  }
+  .reveal-d1 { animation-delay: 80ms; }
+  .reveal-d2 { animation-delay: 160ms; }
+  .reveal-d3 { animation-delay: 240ms; }
+  .reveal-d4 { animation-delay: 320ms; }
+  .reveal-d5 { animation-delay: 400ms; }
+  .reveal-d6 { animation-delay: 480ms; }
+  .reveal-d7 { animation-delay: 560ms; }
+  @keyframes reveal-in {
+    to { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+
+  /* Used only on the hero live indicator — purposeful */
+  .pulse-dot {
+    animation: pulse-dot 2.2s var(--ease-in-out) infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.4; }
+  }
+
+  /* Hero static gradient fallback for SSR + reduced-motion */
+  .hero-fallback {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 20% 30%, rgba(29,158,117,0.30), transparent 60%),
+      radial-gradient(ellipse 80% 60% at 85% 80%, rgba(15,34,64,1), transparent 60%),
+      linear-gradient(180deg, #02060d 0%, #050a16 100%);
+  }
+
+  /* ============================================================
+     REACT BITS-STYLE ANIMATIONS
+     Pure CSS, GPU-friendly (transform + opacity + filter only)
+     ============================================================ */
+
+  /* BlurText — word/char blur-to-focus.
+     Subtle polish only. Content is always fully visible — the animation
+     is a tasteful entry effect, never a visibility gate. */
+  .rb-blur-out {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translate3d(0, 0, 0);
+  }
+  .rb-blur-in {
+    animation: rb-blur-in var(--blur-duration, 0.45s) var(--ease-out) both;
+  }
+  @keyframes rb-blur-in {
+    0%   { opacity: 0.5; filter: blur(3px); transform: translate3d(0, 4px, 0); }
+    100% { opacity: 1; filter: blur(0px); transform: translate3d(0, 0, 0); }
+  }
+
+  /* SplitText — per-char 3D rotation + fade. */
+  .rb-split-out {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotateX(0deg);
+  }
+  .rb-split-in {
+    animation: rb-split-in var(--split-duration, 0.4s) var(--ease-out) both;
+  }
+  @keyframes rb-split-in {
+    0%   { opacity: 0.5; transform: translate3d(0, 4px, 0) rotateX(-8deg); }
+    100% { opacity: 1; transform: translate3d(0, 0, 0) rotateX(0deg); }
+  }
+
+  /* FadeContent — translate + optional blur. */
+  .rb-fade-out {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    filter: blur(0px);
+  }
+  .rb-fade-in {
+    animation: rb-fade-in var(--fade-duration, 0.45s) var(--ease-out) both;
+  }
+  @keyframes rb-fade-in {
+    0%   { opacity: 0.5; transform: translate3d(0, var(--fade-y, 8px), 0); filter: blur(var(--fade-blur, 0px)); }
+    100% { opacity: 1; transform: translate3d(0, 0, 0); filter: blur(0px); }
+  }
+
+  /* ShinyText — moving highlight via background gradient */
+  .rb-shiny {
+    background-image: linear-gradient(
+      90deg,
+      var(--rb-shine-color) 0%,
+      var(--rb-shine-color) 40%,
+      var(--rb-shine-highlight) 50%,
+      var(--rb-shine-color) 60%,
+      var(--rb-shine-color) 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: rb-shine var(--rb-shine-duration, 3s) linear infinite;
+  }
+  @keyframes rb-shine {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* AnimatedList — staggered children. Starts visible, animation is polish. */
+  .rb-list-item {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  .rb-list-out {
+    /* placeholder */
+  }
+  .rb-list-in {
+    animation: rb-list-in var(--list-duration, 0.5s) var(--ease-out) both;
+  }
+  @keyframes rb-list-in {
+    0%   { opacity: 0.4; transform: translate3d(0, 8px, 0); }
+    100% { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+
+  /* GradientText — animated pan */
+  @keyframes rb-gradient-pan {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+  }
+
+  /* BlurText accent — Syne for the highlighted word, colored turquoise.
+     Syne doesn't have an italic variant so we use color + slight weight
+     reduction for editorial emphasis (per PRD: Syne = titles & brand). */
+  .rb-italic-accent {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-style: normal;
+    color: var(--color-turquoise);
+    letter-spacing: -0.03em;
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty  { text-wrap: pretty; }
+  .gpu { will-change: transform; }
 }
