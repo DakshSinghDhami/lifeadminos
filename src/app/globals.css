@@ -340,15 +340,6 @@
     100% { opacity: 1; transform: translate3d(0, 0, 0); filter: blur(0px); }
   }
 
-  /* animate-in-up — SSR-safe fade+slide up (no flash, CSS only) */
-  .animate-in-up {
-    animation: animate-in-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
-  }
-  @keyframes animate-in-up {
-    0%   { opacity: 0; transform: translate3d(0, 24px, 0); }
-    100% { opacity: 1; transform: translate3d(0, 0, 0); }
-  }
-
   /* ShinyText — moving highlight via background gradient */
   .rb-shiny {
     background-image: linear-gradient(

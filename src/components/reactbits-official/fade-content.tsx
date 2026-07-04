@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, type ReactNode, type ElementType } from "react";
+import { useRef, useEffect, type ReactNode, type ElementType, type CSSProperties } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -40,12 +40,6 @@ export function FadeContent({
     const startPct = (1 - threshold) * 100;
     const getSeconds = (val: number) => (val > 10 ? val / 1000 : val);
 
-    gsap.set(el, {
-      autoAlpha: initialOpacity,
-      filter: blur ? "blur(10px)" : "blur(0px)",
-      willChange: "opacity, filter, transform",
-    });
-
     const tl = gsap.timeline({
       paused: true,
       delay: getSeconds(delay),
@@ -61,16 +55,25 @@ export function FadeContent({
       ease: ease,
     });
 
-    const st = ScrollTrigger.create({
-      trigger: el,
-      scroller: window,
-      start: `top ${startPct}%`,
-      once: true,
-      onEnter: () => tl.play(),
-    });
+    if (threshold >= 1) {
+      tl.play();
+    } else {
+      const st = ScrollTrigger.create({
+        trigger: el,
+        scroller: window,
+        start: `top ${startPct}%`,
+        once: true,
+        onEnter: () => tl.play(),
+      });
+
+      return () => {
+        st.kill();
+        tl.kill();
+        gsap.killTweensOf(el);
+      };
+    }
 
     return () => {
-      st.kill();
       tl.kill();
       gsap.killTweensOf(el);
     };
@@ -79,7 +82,17 @@ export function FadeContent({
   const Comp = Tag as unknown as ElementType;
 
   return (
-    <Comp ref={ref as never} className={className}>
+    <Comp
+      ref={ref as never}
+      className={className}
+      style={
+        {
+          opacity: initialOpacity,
+          filter: blur ? "blur(10px)" : "blur(0px)",
+          willChange: "opacity, filter, transform",
+        } as CSSProperties
+      }
+    >
       {children}
     </Comp>
   );

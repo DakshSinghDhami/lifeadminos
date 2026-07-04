@@ -5,6 +5,7 @@ import { ArrowRight, Play } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { BlurText } from "@/components/reactbits-official/blur-text";
+import { FadeContent } from "@/components/reactbits-official/fade-content";
 import { Magnet } from "@/components/reactbits-official/magnet";
 
 export function Hero() {
@@ -61,7 +62,7 @@ export function Hero() {
       />
 
       <div className="relative z-10 container-x pt-28 sm:pt-32">
-        <div className="inline-flex animate-in-up" style={{ animationDelay: "0ms", animationFillMode: "backwards" }}>
+        <FadeContent blur duration={400} delay={0} threshold={1} className="inline-block">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-black/30 backdrop-blur-sm px-3 py-1.5 text-[11.5px] font-medium text-white/90">
             <span
               aria-hidden="true"
@@ -69,17 +70,17 @@ export function Hero() {
             />
             Private beta · Barcelona
           </span>
-        </div>
+        </FadeContent>
       </div>
 
       <div className="relative z-10 container-x">
         <div className="flex min-h-[calc(100svh-180px)] items-end pb-14 sm:pb-16 lg:pb-20">
           <div className="max-w-2xl lg:max-w-3xl w-full">
-            <div className="animate-in-up" style={{ animationDelay: "50ms", animationFillMode: "backwards" }}>
+            <FadeContent blur={false} duration={400} delay={50} threshold={1}>
               <p className="t-eyebrow text-turquoise">
                 <span aria-hidden="true" className="opacity-60">01 —</span> Personal Finance OS
               </p>
-            </div>
+            </FadeContent>
 
             <h1 className="mt-5 t-display-xl text-white text-balance text-[clamp(2.5rem,5.8vw,5rem)]">
               <BlurText
@@ -99,16 +100,16 @@ export function Hero() {
               />
             </h1>
 
-            <div className="animate-in-up" style={{ animationDelay: "100ms", animationFillMode: "backwards" }}>
+            <FadeContent blur={false} duration={350} delay={100} threshold={1}>
               <p className="mt-6 text-[16px] sm:text-[17.5px] text-white/85 max-w-xl text-pretty">
                 LifeAdmin OS reads your bank account, finds every recurring
                 charge, flags price increases, and cancels what you no longer
                 use. Read-only. Bank-agnostic.{" "}
                 <span className="text-white">Money never moves.</span>
               </p>
-            </div>
+            </FadeContent>
 
-            <div className="animate-in-up" style={{ animationDelay: "150ms", animationFillMode: "backwards" }}>
+            <FadeContent blur={false} duration={300} delay={150} threshold={1}>
               <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <Magnet magnetStrength={16} padding={80} className="w-full sm:w-auto">
                   <Link
@@ -129,9 +130,9 @@ export function Hero() {
                   </Link>
                 </Magnet>
               </div>
-            </div>
+            </FadeContent>
 
-            <div className="animate-in-up" style={{ animationDelay: "200ms", animationFillMode: "backwards" }}>
+            <FadeContent blur={false} duration={250} delay={200} threshold={1}>
               <ul className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 t-mono text-[11.5px] text-white/75">
                 {[
                   "No card",
@@ -148,12 +149,12 @@ export function Hero() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </FadeContent>
           </div>
         </div>
       </div>
 
-      <div className="animate-in-up" style={{ animationDelay: "300ms", animationFillMode: "backwards" }}>
+      <FadeContent blur={false} duration={400} delay={300} threshold={1}>
         <div className="hidden lg:flex absolute bottom-8 right-[max(2rem,calc((100vw-1280px)/2+2rem))] z-10 items-center gap-3 text-[11.5px] text-white/75">
           <span
             aria-hidden="true"
@@ -163,7 +164,7 @@ export function Hero() {
             Live · 3 price changes flagged in the last hour
           </span>
         </div>
-      </div>
+      </FadeContent>
     </section>
   );
 }
