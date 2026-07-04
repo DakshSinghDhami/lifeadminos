@@ -9,6 +9,9 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { FadeContent } from "@/components/reactbits/fade-content";
+import { SpotlightCard } from "@/components/reactbits/spotlight-card";
+import { TiltedCard } from "@/components/reactbits/tilted-card";
+import { cn } from "@/lib/utils";
 
 const features = [
   {
@@ -70,7 +73,7 @@ export function Features() {
     >
       <div className="container-x">
         <div className="grid lg:grid-cols-[1fr_1.5fr] gap-8 lg:gap-16 items-end mb-14 sm:mb-16">
-          <FadeContent blur duration={0.7} y={20} as="div">
+          <FadeContent duration={0.5} y={12} as="div">
             <p className="t-eyebrow text-ink/45">
               <span aria-hidden="true" className="opacity-50">04 —</span> The product
             </p>
@@ -83,10 +86,9 @@ export function Features() {
             </h2>
           </FadeContent>
           <FadeContent
-            blur
-            duration={0.6}
-            delay={0.2}
-            y={16}
+            duration={0.5}
+            delay={0.15}
+            y={12}
             as="p"
             className="text-[16px] text-muted max-w-md text-pretty lg:pb-2"
           >
@@ -103,37 +105,51 @@ export function Features() {
               <FadeContent
                 as="li"
                 key={f.title}
-                duration={0.55}
+                duration={0.45}
                 delay={0.05 + i * 0.06}
-                y={20}
-                className={`card card-hover p-6 sm:p-7 relative ${
-                  isPrimary ? "sm:col-span-2 lg:col-span-1" : ""
-                }`}
+                y={12}
+                className={isPrimary ? "sm:col-span-2 lg:col-span-1" : ""}
               >
-                <div className="flex items-start justify-between mb-5">
-                  <span
-                    aria-hidden="true"
-                    className={`inline-flex h-9 w-9 items-center justify-center rounded-[5px] ${a.bg}`}
+                <TiltedCard max={4} perspective={800} className="h-full">
+                  <SpotlightCard
+                    className="card card-hover h-full p-6 sm:p-7 relative cursor-pointer"
+                    spotlightColor={
+                      f.accent === "turquoise"
+                        ? "rgba(29,158,117,0.10)"
+                        : f.accent === "azure"
+                          ? "rgba(49,87,200,0.10)"
+                          : f.accent === "fawn"
+                            ? "rgba(210,180,124,0.15)"
+                            : "rgba(15,34,64,0.06)"
+                    }
+                    size={260}
                   >
-                    <f.icon className={`h-4 w-4 ${a.text}`} strokeWidth={1.75} />
-                  </span>
-                  <span className="t-mono text-[10.5px] text-ink/30 tabular-nums">
-                    {f.n}
-                  </span>
-                </div>
-                <h3 className="t-display-md text-[16.5px] sm:text-[17.5px] text-navy">
-                  {f.title}
-                </h3>
-                <p className="mt-2 text-[14.5px] text-muted leading-relaxed text-pretty">
-                  {f.body}
-                </p>
-                {isPrimary && (
-                  <div className="mt-5 pt-4 border-t border-line">
-                    <p className="t-mono text-[11px] uppercase tracking-wider text-ink/45">
-                      The first thing you&apos;ll see →
+                    <div className="flex items-start justify-between mb-5">
+                      <span
+                        aria-hidden="true"
+                        className={`inline-flex h-9 w-9 items-center justify-center rounded-[5px] ${a.bg}`}
+                      >
+                        <f.icon className={`h-4 w-4 ${a.text}`} strokeWidth={1.75} />
+                      </span>
+                      <span className="t-mono text-[10.5px] text-ink/30 tabular-nums">
+                        {f.n}
+                      </span>
+                    </div>
+                    <h3 className="t-display-md text-[16.5px] sm:text-[17.5px] text-navy">
+                      {f.title}
+                    </h3>
+                    <p className="mt-2 text-[14.5px] text-muted leading-relaxed text-pretty">
+                      {f.body}
                     </p>
-                  </div>
-                )}
+                    {isPrimary && (
+                      <div className="mt-5 pt-4 border-t border-line">
+                        <p className="t-mono text-[11px] uppercase tracking-wider text-ink/45">
+                          The first thing you&apos;ll see →
+                        </p>
+                      </div>
+                    )}
+                  </SpotlightCard>
+                </TiltedCard>
               </FadeContent>
             );
           })}

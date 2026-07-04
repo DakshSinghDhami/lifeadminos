@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { FadeContent } from "@/components/reactbits/fade-content";
 import { ShinyText } from "@/components/reactbits/shiny-text";
+import { Magnet } from "@/components/reactbits-official/magnet";
 
 const benefits = [
   "No credit card",
@@ -64,19 +65,23 @@ export function CTA() {
             as="div"
           >
             <div className="flex flex-col items-stretch gap-4">
-              <Link
-                href="#top"
-                className="btn btn-turquoise h-[56px] px-7 text-[15.5px] w-full"
-              >
-                Connect your bank
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </Link>
-              <Link
-                href="#how"
-                className="btn btn-ghost h-[56px] px-6 text-[15.5px] w-full text-white border border-white/20 hover:border-white/40"
-              >
-                See the walkthrough first
-              </Link>
+              <Magnet magnetStrength={12} padding={120} className="w-full">
+                <Link
+                  href="#top"
+                  className="btn btn-turquoise h-[56px] px-7 text-[15.5px] w-full"
+                >
+                  Connect your bank
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+              </Magnet>
+              <Magnet magnetStrength={10} padding={100} className="w-full">
+                <Link
+                  href="#how"
+                  className="btn btn-ghost h-[56px] px-6 text-[15.5px] w-full text-white border border-white/20 hover:border-white/40"
+                >
+                  See the walkthrough first
+                </Link>
+              </Magnet>
             </div>
 
             <ul className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 t-mono text-[11px] uppercase tracking-wider text-white/45">

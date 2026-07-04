@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  allowedDevOrigins: ["serv", "100.64.26.104", "*"],
 };
 
 export default nextConfig;

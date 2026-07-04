@@ -2,7 +2,10 @@
 
 import { Sparkles, Send, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { FadeContent } from "@/components/reactbits/fade-content";
+import { Spotlight } from "@/components/reactbits/spotlight";
+import { Magnet } from "@/components/reactbits-official/magnet";
 
 const messages = [
   {
@@ -51,6 +54,11 @@ export function Assistant() {
       />
 
       <div className="relative container-x">
+        <Spotlight
+          color="rgba(29, 158, 117, 0.08)"
+          size={600}
+          className="rounded-[8px]"
+        >
         <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-start">
           <div>
             <FadeContent duration={0.5} y={12} as="div">
@@ -134,18 +142,32 @@ export function Assistant() {
                 <p className="t-eyebrow text-white/55">
                   What you see in the app
                 </p>
-                <a
-                  href="#cta"
-                  className="inline-flex items-center gap-1 t-mono text-[11px] uppercase tracking-wider text-turquoise hover:gap-2 transition-all"
-                >
-                  Open the dashboard
-                  <ArrowUpRight className="h-3 w-3" />
-                </a>
+                <Magnet magnetStrength={12} padding={80}>
+                  <Link
+                    href="#cta"
+                    className="inline-flex items-center gap-1 t-mono text-[11px] uppercase tracking-wider text-turquoise hover:gap-2 transition-all"
+                  >
+                    Open the dashboard
+                    <ArrowUpRight className="h-3 w-3" />
+                  </Link>
+                </Magnet>
               </div>
-              <DashboardMock />
+              {/* 3D depth stack — layered cards behind the dashboard */}
+              <div className="rb-depth-stack">
+                <div className="rb-depth-layer rb-depth-layer-back" aria-hidden="true">
+                  <div className="rounded-[6px] border border-white/10 bg-white/5 h-full" />
+                </div>
+                <div className="rb-depth-layer rb-depth-layer-mid" aria-hidden="true">
+                  <div className="rounded-[6px] border border-white/15 bg-white/8 h-full" />
+                </div>
+                <div className="rb-depth-layer-front">
+                  <DashboardMock />
+                </div>
+              </div>
             </FadeContent>
           </div>
         </div>
+        </Spotlight>
       </div>
     </section>
   );

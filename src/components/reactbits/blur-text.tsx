@@ -1,13 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties, type ElementType } from "react";
+import { useEffect, useState, type CSSProperties, type ElementType } from "react";
 import { cn } from "@/lib/utils";
 
-/**
- * BlurText — Text starts blurred then crisply resolves.
- * React Bits pattern: word-by-word stagger using CSS animations.
- * Pure CSS, no JS per frame.
- */
 export function BlurText({
   text,
   as: Tag = "h1",
@@ -27,33 +22,10 @@ export function BlurText({
   animateBy?: "word" | "char";
   className_word?: string;
 }) {
-  const ref = useRef<HTMLElement | null>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (typeof IntersectionObserver === "undefined") return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          // eslint-disable-next-line react-hooks/set-state-in-effect
-          setVisible(true);
-          io.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
-    io.observe(el);
-    const t = setTimeout(() => {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setVisible(true);
-      io.disconnect();
-    }, 1500);
-    return () => {
-      io.disconnect();
-      clearTimeout(t);
-    };
+    setVisible(true);
   }, []);
 
   const units: string[] =
@@ -61,7 +33,6 @@ export function BlurText({
 
   return (
     <Tag
-      ref={ref as never}
       className={cn("inline-block", className)}
       style={
         {

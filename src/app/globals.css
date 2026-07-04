@@ -14,15 +14,15 @@
   --color-azure-soft: #e6ecf8;
   --color-fawn: #d2b47c;
   --color-fawn-soft: #f4ebd9;
-  --color-beige: #f5f0e8;
-  --color-beige-2: #ebe1cf;
+  --color-beige: #f2f4f7;
+  --color-beige-2: #e4e7ed;
   --color-paper: #ffffff;
-  --color-paper-2: #faf7f0;
-  --color-paper-3: #f0ebde;
+  --color-paper-2: #f6f7f9;
+  --color-paper-3: #eef0f3;
   --color-ink: #111111;
   --color-ink-2: #2a2a2a;
-  --color-line: #e5dfd0;
-  --color-line-2: #d2c9b3;
+  --color-line: #e2e4e8;
+  --color-line-2: #cfd2d8;
 
   /* Dark — for hero only */
   --color-deep: #02060d;
@@ -108,31 +108,7 @@
     border-radius: 2px;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.001ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.001ms !important;
-      scroll-behavior: auto !important;
-    }
-    .rb-blur-out,
-    .rb-split-out,
-    .rb-fade-out,
-    .rb-list-item {
-      opacity: 1 !important;
-      transform: none !important;
-      filter: none !important;
-      animation: none !important;
-    }
-    .rb-shiny,
-    .rb-gradient-text {
-      animation: none !important;
-      background-size: 100% 100% !important;
-    }
-    .grainient-container { display: none; }
-  }
+  /* NO reduced-motion handling — user wants all animations visible */
 }
 
 @layer components {
@@ -322,47 +298,55 @@
      Pure CSS, GPU-friendly (transform + opacity + filter only)
      ============================================================ */
 
-  /* BlurText — word/char blur-to-focus.
-     Subtle polish only. Content is always fully visible — the animation
-     is a tasteful entry effect, never a visibility gate. */
+  /* BlurText — word/char blur-to-focus. Starts invisible, animates in. */
   .rb-blur-out {
-    opacity: 1;
-    filter: blur(0px);
-    transform: translate3d(0, 0, 0);
+    opacity: 0;
+    filter: blur(12px);
+    transform: translate3d(0, 10px, 0);
   }
   .rb-blur-in {
-    animation: rb-blur-in var(--blur-duration, 0.45s) var(--ease-out) both;
+    animation: rb-blur-in var(--blur-duration, 0.8s) var(--ease-out) both;
   }
   @keyframes rb-blur-in {
-    0%   { opacity: 0.5; filter: blur(3px); transform: translate3d(0, 4px, 0); }
+    0%   { opacity: 0; filter: blur(12px); transform: translate3d(0, 10px, 0); }
     100% { opacity: 1; filter: blur(0px); transform: translate3d(0, 0, 0); }
   }
 
   /* SplitText — per-char 3D rotation + fade. */
   .rb-split-out {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) rotateX(0deg);
+    opacity: 0;
+    transform: translate3d(0, 12px, 0) rotateX(-30deg);
+    transform-origin: 50% 100%;
   }
   .rb-split-in {
-    animation: rb-split-in var(--split-duration, 0.4s) var(--ease-out) both;
+    animation: rb-split-in var(--split-duration, 0.6s) var(--ease-out) both;
   }
   @keyframes rb-split-in {
-    0%   { opacity: 0.5; transform: translate3d(0, 4px, 0) rotateX(-8deg); }
+    0%   { opacity: 0; transform: translate3d(0, 12px, 0) rotateX(-30deg); }
     100% { opacity: 1; transform: translate3d(0, 0, 0) rotateX(0deg); }
   }
 
-  /* FadeContent — translate + optional blur. */
+  /* FadeContent — translate + optional blur. Starts hidden, animates in. */
   .rb-fade-out {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-    filter: blur(0px);
+    opacity: 0;
+    transform: translate3d(0, var(--fade-y, 30px), 0);
+    filter: blur(var(--fade-blur, 0px));
   }
   .rb-fade-in {
-    animation: rb-fade-in var(--fade-duration, 0.45s) var(--ease-out) both;
+    animation: rb-fade-in var(--fade-duration, 0.7s) var(--ease-out) both;
   }
   @keyframes rb-fade-in {
-    0%   { opacity: 0.5; transform: translate3d(0, var(--fade-y, 8px), 0); filter: blur(var(--fade-blur, 0px)); }
+    0%   { opacity: 0; transform: translate3d(0, var(--fade-y, 30px), 0); filter: blur(var(--fade-blur, 0px)); }
     100% { opacity: 1; transform: translate3d(0, 0, 0); filter: blur(0px); }
+  }
+
+  /* animate-in-up — SSR-safe fade+slide up (no flash, CSS only) */
+  .animate-in-up {
+    animation: animate-in-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  }
+  @keyframes animate-in-up {
+    0%   { opacity: 0; transform: translate3d(0, 24px, 0); }
+    100% { opacity: 1; transform: translate3d(0, 0, 0); }
   }
 
   /* ShinyText — moving highlight via background gradient */
@@ -387,20 +371,20 @@
     100% { background-position: -200% 0; }
   }
 
-  /* AnimatedList — staggered children. Starts visible, animation is polish. */
+  /* AnimatedList — staggered children. Starts hidden, animates in. */
   .rb-list-item {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
   }
   .rb-list-out {
     /* placeholder */
   }
   .rb-list-in {
-    animation: rb-list-in var(--list-duration, 0.5s) var(--ease-out) both;
+    animation: rb-list-in var(--list-duration, 0.6s) var(--ease-out) both;
   }
   @keyframes rb-list-in {
-    0%   { opacity: 0.4; transform: translate3d(0, 8px, 0); }
-    100% { opacity: 1; transform: translate3d(0, 0, 0); }
+    0%   { opacity: 0; transform: translate3d(0, 20px, 0) scale(0.96); }
+    100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
   }
 
   /* GradientText — animated pan */
@@ -418,6 +402,173 @@
     font-style: normal;
     color: var(--color-turquoise);
     letter-spacing: -0.03em;
+  }
+
+  /* ============================================================
+     3D + INTERACTION COMPONENTS (React Bits-style)
+     All GPU-only (transform, opacity, filter). All respect
+     prefers-reduced-motion via the global media query.
+     ============================================================ */
+
+  /* TiltedCard — 3D mouse-follow tilt */
+  .rb-tilt {
+    will-change: transform;
+  }
+  @media (hover: none) {
+    /* Touch devices: disable tilt entirely */
+    .rb-tilt { transform: none !important; }
+  }
+
+  /* SpotlightCard — radial gradient follows cursor */
+  .rb-spotlight { position: relative; overflow: hidden; }
+  .rb-spotlight-overlay {
+    background: radial-gradient(
+      circle var(--spot-size, 280px) at var(--spot-x, 50%) var(--spot-y, 50%),
+      var(--spot-color, rgba(29,158,117,0.12)),
+      transparent 70%
+    );
+  }
+
+  /* Spotlight (background) — large radial that follows cursor */
+  .rb-spotlight-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      circle var(--sl-size, 500px) at var(--sl-x, 50%) var(--sl-y, 50%),
+      var(--sl-color, rgba(29,158,117,0.15)),
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 300ms ease;
+  }
+  .rb-spotlight-bg:hover::before { opacity: 1; }
+
+  /* StarBorder — rotating conic gradient border ring */
+  .rb-star-border {
+    position: relative;
+    border-radius: var(--star-radius, 8px);
+    overflow: hidden;
+  }
+  .rb-star-border-ring {
+    padding: var(--star-thickness, 1px);
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      var(--star-color, #1D9E75) 40deg,
+      #ffffff 60deg,
+      var(--star-color, #1D9E75) 80deg,
+      transparent 120deg,
+      transparent 360deg
+    );
+    animation: rb-star-rotate var(--star-speed, 4s) linear infinite;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+  @keyframes rb-star-rotate {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Hero badge float */
+  .rb-hero-badge {
+    animation: rb-badge-float 4s ease-in-out infinite;
+  }
+  @keyframes rb-badge-float {
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    50%      { transform: translate3d(0, -3px, 0); }
+  }
+
+  /* StarBorder keyframes */
+  @keyframes star-movement-bottom {
+    0%   { transform: translate(0%, 0%); opacity: 1; }
+    100% { transform: translate(-100%, 0%); opacity: 0; }
+  }
+  @keyframes star-movement-top {
+    0%   { transform: translate(0%, 0%); opacity: 1; }
+    100% { transform: translate(100%, 0%); opacity: 0; }
+  }
+
+  /* Pulse dot — more dramatic */
+  .pulse-dot {
+    animation: pulse-dot 1.5s var(--ease-in-out) infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.3; transform: scale(0.8); }
+  }
+
+  /* ShinyText — more visible sweep */
+  .rb-shiny {
+    background-image: linear-gradient(
+      90deg,
+      var(--rb-shine-color) 0%,
+      var(--rb-shine-color) 35%,
+      var(--rb-shine-highlight) 50%,
+      var(--rb-shine-color) 65%,
+      var(--rb-shine-color) 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: rb-shine var(--rb-shine-duration, 3s) linear infinite;
+  }
+  @keyframes rb-shine {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* MagneticButton — cursor attraction */
+  .rb-magnetic {
+    will-change: transform;
+  }
+
+  /* 3D depth stack — layered cards behind the front card */
+  .rb-depth-stack {
+    position: relative;
+    perspective: 1400px;
+    transform-style: preserve-3d;
+  }
+  .rb-depth-layer {
+    position: absolute;
+    inset: 0;
+    transform-origin: center bottom;
+  }
+  .rb-depth-layer-back {
+    transform: rotateX(12deg) rotateY(-8deg) translateZ(-100px) translateY(40px);
+    opacity: 0.35;
+    filter: blur(2px);
+    animation: rb-depth-float-back 10s ease-in-out infinite;
+  }
+  .rb-depth-layer-mid {
+    transform: rotateX(8deg) rotateY(-5deg) translateZ(-50px) translateY(20px);
+    opacity: 0.6;
+    filter: blur(1px);
+    animation: rb-depth-float-mid 9s ease-in-out infinite;
+  }
+  .rb-depth-layer-front {
+    position: relative;
+    transform: rotateX(3deg) rotateY(-2deg);
+    transform-origin: center bottom;
+    animation: rb-depth-float 8s ease-in-out infinite;
+  }
+  @keyframes rb-depth-float {
+    0%, 100% { transform: rotateX(3deg) rotateY(-2deg) translate3d(0, 0, 0); }
+    50%      { transform: rotateX(3deg) rotateY(-2deg) translate3d(0, -10px, 0); }
+  }
+  @keyframes rb-depth-float-mid {
+    0%, 100% { transform: rotateX(8deg) rotateY(-5deg) translateZ(-50px) translateY(20px); }
+    50%      { transform: rotateX(8deg) rotateY(-5deg) translateZ(-50px) translateY(14px); }
+  }
+  @keyframes rb-depth-float-back {
+    0%, 100% { transform: rotateX(12deg) rotateY(-8deg) translateZ(-100px) translateY(40px); }
+    50%      { transform: rotateX(12deg) rotateY(-8deg) translateZ(-100px) translateY(30px); }
   }
 }
 

@@ -1,12 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties, type ElementType, type ReactNode } from "react";
+import { useEffect, useState, type CSSProperties, type ElementType, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-/**
- * FadeContent — Element fades in with optional blur + translateY on scroll.
- * React Bits pattern: scroll-triggered reveal using IntersectionObserver.
- */
 export function FadeContent({
   children,
   className,
@@ -24,40 +20,16 @@ export function FadeContent({
   y?: number;
   as?: keyof React.JSX.IntrinsicElements;
 }) {
-  const ref = useRef<HTMLElement | null>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (typeof IntersectionObserver === "undefined") return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          // eslint-disable-next-line react-hooks/set-state-in-effect
-          setVisible(true);
-          io.disconnect();
-        }
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -10% 0px" }
-    );
-    io.observe(el);
-    const t = setTimeout(() => {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setVisible(true);
-      io.disconnect();
-    }, 1500);
-    return () => {
-      io.disconnect();
-      clearTimeout(t);
-    };
+    setVisible(true);
   }, []);
 
   const Comp = Tag as unknown as ElementType;
 
   return (
     <Comp
-      ref={ref as never}
       className={cn(visible ? "rb-fade-in" : "rb-fade-out", className)}
       style={
         {

@@ -3,6 +3,8 @@
 import { Link2, ScanSearch, Bell, CheckCircle2 } from "lucide-react";
 import { FadeContent } from "@/components/reactbits/fade-content";
 import { CountUp } from "@/components/reactbits/count-up";
+import { TiltedCard } from "@/components/reactbits/tilted-card";
+import { SpotlightCard } from "@/components/reactbits/spotlight-card";
 
 const steps = [
   {
@@ -54,39 +56,46 @@ export function HowItWorks() {
             </p>
           </FadeContent>
 
-          {/* Proof callout — uses CountUp + ShinyText */}
+          {/* Proof callout — uses CountUp + TiltedCard + SpotlightCard */}
           <FadeContent
-            blur
             duration={0.6}
             delay={0.15}
             y={16}
             as="div"
-            className="rounded-[6px] border border-line bg-paper-2 p-6 lg:ml-auto max-w-sm w-full"
+            className="lg:ml-auto max-w-sm w-full"
           >
-            <p className="t-mono text-[10.5px] uppercase tracking-wider text-ink/45">
-              Average first-90-day outcome
-            </p>
-            <div className="mt-3 flex items-baseline gap-2">
-              <span className="t-display-lg text-[42px] sm:text-[48px] font-semibold text-navy leading-none tabular-nums">
-                €<CountUp to={342} duration={1.4} />
-              </span>
-              <span className="text-[14px] text-ink/55">saved</span>
-            </div>
-            <div className="mt-3 h-px bg-line" />
-            <ul className="mt-3 space-y-1.5 t-mono text-[12px] text-ink/60">
-              <li className="flex items-baseline justify-between">
-                <span>Subscriptions cancelled</span>
-                <span className="text-navy">3.4 avg</span>
-              </li>
-              <li className="flex items-baseline justify-between">
-                <span>Price drops renegotiated</span>
-                <span className="text-navy">1.8 avg</span>
-              </li>
-              <li className="flex items-baseline justify-between">
-                <span>Time to first save</span>
-                <span className="text-navy">11 days</span>
-              </li>
-            </ul>
+            <TiltedCard max={5} perspective={900}>
+              <SpotlightCard
+                className="rounded-[6px] border border-line bg-paper-2 p-6"
+                spotlightColor="rgba(29,158,117,0.10)"
+                size={300}
+              >
+                <p className="t-mono text-[10.5px] uppercase tracking-wider text-ink/45">
+                  Average first-90-day outcome
+                </p>
+                <div className="mt-3 flex items-baseline gap-2">
+                  <span className="t-display-lg text-[42px] sm:text-[48px] font-semibold text-navy leading-none tabular-nums">
+                    €<CountUp to={342} duration={1.4} />
+                  </span>
+                  <span className="text-[14px] text-ink/55">saved</span>
+                </div>
+                <div className="mt-3 h-px bg-line" />
+                <ul className="mt-3 space-y-1.5 t-mono text-[12px] text-ink/60">
+                  <li className="flex items-baseline justify-between">
+                    <span>Subscriptions cancelled</span>
+                    <span className="text-navy">3.4 avg</span>
+                  </li>
+                  <li className="flex items-baseline justify-between">
+                    <span>Price drops renegotiated</span>
+                    <span className="text-navy">1.8 avg</span>
+                  </li>
+                  <li className="flex items-baseline justify-between">
+                    <span>Time to first save</span>
+                    <span className="text-navy">11 days</span>
+                  </li>
+                </ul>
+              </SpotlightCard>
+            </TiltedCard>
           </FadeContent>
         </div>
 
